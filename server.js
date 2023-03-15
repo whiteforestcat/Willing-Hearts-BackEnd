@@ -20,28 +20,29 @@ app.use("/volunteer-slots", volunteerSlots);
 app.use("/users", users);
 
 // Seed data:
-// const seed = require("./models/SeedData");
-// const VolunteerSlots = require("./models/VolunteerSlots");
 
-// app.get("/seed", async (req, res) => {
-//   seed.forEach((item) => {
-//     const newItem = {
-//       date: item.date,
-//       orig_slots_available: item.orig_slots_available,
-//       sign_ups: item.sign_ups,
-//     };
-//   });
-//   console.log(seed);
-//   await VolunteerSlots.create(seed, (err, createdUsers) => {
-//     if (err) {
-//       console.log(err);
-//       res.status(400).json({ status: "error", message: "seeding error" });
-//     } else {
-//       // logs created users
-//       console.log(createdUsers);
-//     }
-//   });
-// });
+const seed = require("./models/SeedData");
+const VolunteerSlots = require("./models/VolunteerSlots");
+
+app.get("/seed", async (req, res) => {
+  seed.forEach((item) => {
+    const newItem = {
+      date: item.date,
+      orig_slots_available: item.orig_slots_available,
+      sign_ups: item.sign_ups,
+    };
+  });
+  console.log(seed);
+  await VolunteerSlots.create(seed, (err, createdUsers) => {
+    if (err) {
+      console.log(err);
+      res.status(400).json({ status: "error", message: "seeding error" });
+    } else {
+      // logs created users
+      console.log(createdUsers);
+    }
+  });
+});
 
 app.listen(process.env.PORT, () => {
   console.log(`server started on Port ${process.env.PORT}`);
